@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vault - special memories</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- STATE 1: Vault Lock Screen -->
+    <div id="vault-screen" class="screen active">
+        <div class="vault-card">
+            <div class="vault-header">
+                <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                </svg>
+                <h1 class="vault-title">The Vault</h1>
+                <p class="vault-subtitle">ENTER SECRET DATE</p>
+            </div>
+
+            <div class="passcode-display" id="passcode-display">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <div class="keypad">
+                <button class="key" onclick="pressKey('1')">1</button>
+                <button class="key" onclick="pressKey('2')">2</button>
+                <button class="key" onclick="pressKey('3')">3</button>
+                <button class="key" onclick="pressKey('4')">4</button>
+                <button class="key" onclick="pressKey('5')">5</button>
+                <button class="key" onclick="pressKey('6')">6</button>
+                <button class="key" onclick="pressKey('7')">7</button>
+                <button class="key" onclick="pressKey('8')">8</button>
+                <button class="key" onclick="pressKey('9')">9</button>
+                <button class="key" onclick="pressKey('*')">*</button>
+                <button class="key" onclick="pressKey('0')">0</button>
+                <button class="key" onclick="clearKey()">⌫</button>
+            </div>
+
+            <button class="unlock-btn" id="unlock-btn">UNLOCK GIFT</button>
+            <p id="error-msg" class="error-msg">Incorrect Date. Try again!</p>
+        </div>
+    </div>
+
+    <!-- STATE 2: Welcome Intro Screen -->
+    <div id="welcome-screen" class="screen">
+        <div class="welcome-bg"></div>
+        <div class="welcome-card glassmorphism">
+            <h2 class="welcome-sub">Happy Valentine's Day ✨</h2>
+            <h1 class="welcome-name">My Love</h1>
+            <p class="welcome-quote">"My heart beats only for you."<br>"My heart beats only for you."</p>
+
+            <button class="pill-btn primary-btn pulse-glow" id="shower-love-btn">
+                <span class="icon">💝</span> Shower me with Love
+            </button>
+        </div>
+    </div>
+
+    <!-- STATE 3: The Main Content -->
+    <div id="main-screen" class="screen main-scrollable">
+
+        <!-- Letter Section -->
+        <section class="letter-section">
+            <div class="letter-paper">
+                <h2 class="letter-title">A Letter From My Heart 💌</h2>
+                <p class="letter-page">Page 1 of 1</p>
+
+                <h3 class="letter-greeting">Hey love,</h3>
+                <p>
+                    I don't know where to start, because every time I think about you, words feel less and emotions feel
+                    infinite. Par phir bhi, aaj mann ki baat likhni thi... sirf tumhare liye ❤️
+                </p>
+                <p>
+                    Tum meri zindagi ka wo hissa ho jo bina noise ke sab kuch bright kar deta hai. Jaise soft si roshni
+                    jo andhere room ko bhi warm bana deti hai. Tumhara hona loud nahi hai, par powerful hai. Tumhari ek
+                    smile poore din ka stress hata deti hai, aur tumhari ek simple "sab theek hai" wali line mujhe
+                    strong bana deti hai.
+                </p>
+                <p>
+                    I love the way you talk, even about random things. Tumhari baatein, tumhari choti-choti complaints,
+                    tumhari excitement... tumhari baatein jo sirf mujhe sunani hoti hain — sab kuch special lagta hai.
+                    Tum normal cheezon ko bhi beautiful bana deti ho, jaise chai, shaam, sadak, music, silence... sab
+                    kuch tumse connect ho jaata hai.
+                </p>
+            </div>
+        </section>
+
+        <!-- Captured Moments Section -->
+        <section class="moments-section">
+            <h2 class="section-title">Captured Moments</h2>
+
+            <div class="masonry-grid">
+                <!-- Polaroid 1 -->
+                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
+                    <div class="flipper">
+                        <div class="front">
+                            <div class="photo photo-1"></div>
+                            <p class="caption">Memory #1</p>
+                        </div>
+                        <div class="back">
+                            <p class="back-message">Every moment with you is magic! ✨</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Polaroid Quote (Not flippable) -->
+                <div class="polaroid quote-polaroid">
+                    <div class="quote-content">
+                        <span class="heart-icon">♥</span>
+                        <p>"Your smile is my favorite view in the world ✨❤️"</p>
+                    </div>
+                </div>
+                <!-- Polaroid 2 -->
+                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
+                    <div class="flipper">
+                        <div class="front">
+                            <div class="photo photo-2"></div>
+                            <p class="caption">Memory #2</p>
+                        </div>
+                        <div class="back">
+                            <p class="back-message">I could stare at you all day. 😍</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Polaroid 3 -->
+                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
+                    <div class="flipper">
+                        <div class="front">
+                            <div class="photo photo-3"></div>
+                            <p class="caption">Memory #3</p>
+                        </div>
+                        <div class="back">
+                            <p class="back-message">You are my happy place. 🏡💖</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Polaroid 4 -->
+                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
+                    <div class="flipper">
+                        <div class="front">
+                            <div class="photo photo-4"></div>
+                            <p class="caption">Memory #4</p>
+                        </div>
+                        <div class="back">
+                            <p class="back-message">Our journey together is my favorite story. 📖💕</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why I Love You Section -->
+        <section class="why-love-section">
+            <h2 class="section-title">Why I Love You</h2>
+            <div class="love-card">
+                <p id="love-quote">"I love you because tumhari presence hi enough hoti hai."</p>
+            </div>
+            <button class="pill-btn primary-btn pulse-glow" id="feel-loved-btn">
+                <span class="icon">🤍</span> Click to Feel Loved
+            </button>
+            <div class="envelope-icon-divider">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none">
+                    <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7"></path>
+                    <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Open When Section -->
+        <section class="open-when-section">
+            <h2 class="section-title">Open When...</h2>
+            <p class="section-subtitle">Little reminders of my love for every mood</p>
+
+            <div class="envelopes-grid">
+                <!-- Envelope 1 -->
+                <div class="open-envelope" onclick="this.classList.toggle('opened')">
+                    <div class="env-header">
+                        <span class="env-to">To: My Love</span>
+                        <span class="env-heart">♡</span>
+                    </div>
+                    <h3 class="env-title">You Miss Me</h3>
+                    <button class="env-btn">WHEN</button>
+                    <!-- Hidden content simulating opened envelope -->
+                    <div class="env-content">Close your eyes and remember our best hug. I'm right there with you
+                        mentally!</div>
+                </div>
+                <!-- Envelope 2 -->
+                <div class="open-envelope" onclick="this.classList.toggle('opened')">
+                    <div class="env-header">
+                        <span class="env-to">To: My Love</span>
+                        <span class="env-heart">♡</span>
+                    </div>
+                    <h3 class="env-title">You're Sad</h3>
+                    <button class="env-btn">OPEN WHEN</button>
+                    <!-- Hidden content -->
+                    <div class="env-content">It's okay to cry. Tomorrow is a new day and I am always here to listen.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Will You Be My Valentine Section -->
+        <section class="valentine-section">
+            <h2 class="section-title">Will you be my Valentine? 🌹</h2>
+
+            <div class="bear-card">
+                <!-- Simulated bear sticker/GIF area -->
+                <div class="bear-placeholder">
+                    <span>🐻 Hugs!</span>
+                </div>
+            </div>
+            <button class="pill-btn highlight-btn" onclick="alert('I love you immensely!')">Yes! 💖</button>
+
+            <!-- One Last Surprise -->
+            <div class="last-surprise">
+                <h2 class="section-title">One Last Surprise...</h2>
+                <p class="section-subtitle">Click the box to open</p>
+
+                <div class="flat-giftbox" id="final-box">
+                    <div class="box-lid" id="final-lid"></div>
+                    <div class="box-bottom">
+                        <div class="chest-jewel">♡</div>
+                    </div>
+                </div>
+
+                <!-- Expanded Heart Confetti Container -->
+                <div class="hearts-container" id="hearts-container"></div>
+
+                <h3 class="final-question">Will you be my Valentine?</h3>
+                <button class="pill-btn highlight-btn pulse-glow" id="final-yes-btn">YES! 💕</button>
+            </div>
+        </section>
+
+        <!-- Floating Music Player -->
+        <div class="floating-music-player">
+            <button class="play-btn" id="audio-toggle">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="play-icon">
+                    <path d="M8 5V19L19 12L8 5Z"></path>
+                </svg>
+            </button>
+            <div class="music-info">
+                <p class="song-title">Love Song</p>
+                <p class="song-artist">Our favorite track</p>
+            </div>
+            <audio id="bg-music" loop></audio>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
