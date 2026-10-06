@@ -4,261 +4,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Vault - special memories</title>
+    <meta name="description" content="The Vault — A cinematic, emotional personal memory experience and love letter.">
+    <title>The Vault — A Place For Our Memories</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Cormorant Garamond, Great Vibes, Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Ambient Canvas for subtle floating particles & stardust -->
+    <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
 
-    <!-- STATE 1: Vault Lock Screen -->
-    <div id="vault-screen" class="screen active">
-        <div class="vault-card">
+    <!-- Discreet Story Navigation (Active when main story is open) -->
+    <nav id="story-nav" class="story-nav" aria-label="Story Chapters">
+        <div class="nav-track">
+            <button class="nav-dot" data-target="section-letter" aria-label="Chapter 1: The Letter">
+                <span class="nav-tip">01 The Letter</span>
+            </button>
+            <button class="nav-dot" data-target="section-moments" aria-label="Chapter 2: Captured Moments">
+                <span class="nav-tip">02 Memories</span>
+            </button>
+            <button class="nav-dot" data-target="section-reasons" aria-label="Chapter 3: Why I Love You">
+                <span class="nav-tip">03 Reasons</span>
+            </button>
+            <button class="nav-dot" data-target="section-open-when" aria-label="Chapter 4: Open When">
+                <span class="nav-tip">04 Open When</span>
+            </button>
+            <button class="nav-dot" data-target="section-valentine" aria-label="Chapter 5: Valentine">
+                <span class="nav-tip">05 Valentine</span>
+            </button>
+            <button class="nav-dot" data-target="section-climax" aria-label="Chapter 6: The Climax">
+                <span class="nav-tip">06 The Surprise</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Floating Audio Control Deck -->
+    <aside id="audio-deck" class="audio-deck" aria-label="Ambient Music Player">
+        <button id="audio-toggle-btn" class="audio-toggle-btn" aria-label="Play or Pause Ambient Music" title="Play Ambient Music">
+            <div class="sound-wave" id="sound-wave">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>
+                <span class="bar bar-3"></span>
+                <span class="bar bar-4"></span>
+            </div>
+            <svg class="play-glyph" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </button>
+
+        <div class="audio-meta">
+            <span class="audio-title">Our Melody</span>
+            <span class="audio-status" id="audio-status-text">Ambient Piano</span>
+        </div>
+
+        <div class="audio-controls">
+            <button id="mute-toggle-btn" class="mute-btn" aria-label="Toggle Mute" title="Mute/Unmute">
+                <svg id="volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.05" value="0.75" aria-label="Volume Control" title="Volume">
+        </div>
+
+        <!-- Optional HTML5 Audio element if user adds music file -->
+        <audio id="local-audio-track" loop preload="none">
+            <source src="assets/music.mp3" type="audio/mpeg">
+            <source src="assets/music.ogg" type="audio/ogg">
+        </audio>
+    </aside>
+
+    <!-- ==========================================
+         STAGE 1: THE SECRET VAULT
+    =========================================== -->
+    <section id="vault-screen" class="screen screen-vault active" aria-label="Vault Screen">
+        <div class="vault-backdrop-glow"></div>
+
+        <div class="vault-container">
+            <!-- Vault Mechanical Crest -->
+            <div class="vault-crest" id="vault-crest">
+                <div class="crest-outer-ring"></div>
+                <div class="crest-inner-ring">
+                    <svg class="crest-lock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2.5" ry="2.5"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        <circle cx="12" cy="16" r="1.5" fill="currentColor"></circle>
+                    </svg>
+                </div>
+            </div>
+
             <div class="vault-header">
-                <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0110 0v4"></path>
-                </svg>
+                <span class="vault-pretitle">PRIVATE ARCHIVE</span>
                 <h1 class="vault-title">The Vault</h1>
-                <p class="vault-subtitle">ENTER SECRET DATE</p>
+                <p class="vault-subtitle">ENTER SECRET DATE TO UNLOCK</p>
+                <p class="vault-hint">Format: Day &amp; Month (DDMM)</p>
             </div>
 
-            <div class="passcode-display" id="passcode-display">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+            <!-- Passcode Display Dots -->
+            <div class="passcode-display" id="passcode-display" aria-live="polite" aria-label="Passcode digits entered">
+                <div class="pass-dot" data-index="0"></div>
+                <div class="pass-dot" data-index="1"></div>
+                <div class="pass-dot" data-index="2"></div>
+                <div class="pass-dot" data-index="3"></div>
             </div>
 
-            <div class="keypad">
-                <button class="key" onclick="pressKey('1')">1</button>
-                <button class="key" onclick="pressKey('2')">2</button>
-                <button class="key" onclick="pressKey('3')">3</button>
-                <button class="key" onclick="pressKey('4')">4</button>
-                <button class="key" onclick="pressKey('5')">5</button>
-                <button class="key" onclick="pressKey('6')">6</button>
-                <button class="key" onclick="pressKey('7')">7</button>
-                <button class="key" onclick="pressKey('8')">8</button>
-                <button class="key" onclick="pressKey('9')">9</button>
-                <button class="key" onclick="pressKey('*')">*</button>
-                <button class="key" onclick="pressKey('0')">0</button>
-                <button class="key" onclick="clearKey()">⌫</button>
+            <!-- Numeric Keypad -->
+            <div class="keypad" role="group" aria-label="Numeric Keypad">
+                <button type="button" class="num-key" data-key="1">1</button>
+                <button type="button" class="num-key" data-key="2">2</button>
+                <button type="button" class="num-key" data-key="3">3</button>
+                <button type="button" class="num-key" data-key="4">4</button>
+                <button type="button" class="num-key" data-key="5">5</button>
+                <button type="button" class="num-key" data-key="6">6</button>
+                <button type="button" class="num-key" data-key="7">7</button>
+                <button type="button" class="num-key" data-key="8">8</button>
+                <button type="button" class="num-key" data-key="9">9</button>
+                <button type="button" class="num-key empty-key" disabled aria-hidden="true"></button>
+                <button type="button" class="num-key" data-key="0">0</button>
+                <button type="button" class="num-key del-key" id="key-del" aria-label="Backspace">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0 2-2z"></path>
+                        <line x1="18" y1="9" x2="12" y2="15"></line>
+                        <line x1="12" y1="9" x2="18" y2="15"></line>
+                    </svg>
+                </button>
             </div>
 
-            <button class="unlock-btn" id="unlock-btn">UNLOCK GIFT</button>
-            <p id="error-msg" class="error-msg">Incorrect Date. Try again!</p>
+            <button type="button" id="vault-unlock-btn" class="vault-unlock-btn">
+                <span>UNLOCK MEMORIES</span>
+                <svg class="arrow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+
+            <!-- Inline Error Feedback (No Browser Alerts) -->
+            <div id="vault-error" class="vault-error" role="alert" aria-live="assertive">
+                <span class="error-text">Incorrect Date Code. Please enter today's date (DDMM).</span>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- STATE 2: Welcome Intro Screen -->
-    <div id="welcome-screen" class="screen">
-        <div class="welcome-bg"></div>
-        <div class="welcome-card glassmorphism">
-            <h2 class="welcome-sub">Happy Valentine's Day ✨</h2>
-            <h1 class="welcome-name">My Love</h1>
-            <p class="welcome-quote">"My heart beats only for you."<br>"My heart beats only for you."</p>
+    <!-- ==========================================
+         STAGE 2: WELCOME INTRO SCREEN
+    =========================================== -->
+    <section id="welcome-screen" class="screen screen-welcome" aria-label="Welcome Screen">
+        <div class="welcome-bg-aura"></div>
+        <div class="welcome-card">
+            <span class="welcome-tag">A CELEBRATION OF US</span>
+            <h2 class="welcome-sub">Happy Birthday Day ✨</h2>
+            <h1 class="welcome-name">My Friend</h1>
+            <p class="welcome-quote">
+                &ldquo;In all the world, there is no heart for me like yours.<br>
+                In all the world, there is no love for you like mine like a friend.&rdquo;
+            </p>
+            <p class="welcome-caption">
+                Every second with you is a memory I hold close.<br>
+                Step inside to explore our little universe.
+            </p>
 
-            <button class="pill-btn primary-btn pulse-glow" id="shower-love-btn">
-                <span class="icon">💝</span> Shower me with Love
+            <button type="button" id="step-inside-btn" class="btn-luminous">
+                <span>Step Into Our Story</span>
+                <svg class="btn-sparkle" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M12 0l2.5 8.5L23 11l-8.5 2.5L12 22l-2.5-8.5L1 11l8.5-2.5z"/>
+                </svg>
             </button>
         </div>
-    </div>
+    </section>
 
-    <!-- STATE 3: The Main Content -->
-    <div id="main-screen" class="screen main-scrollable">
+    <!-- ==========================================
+         STAGE 3: THE MAIN MEMORY JOURNEY
+    =========================================== -->
+    <main id="main-screen" class="screen screen-main" aria-label="Main Memory Scrapbook">
 
-        <!-- Letter Section -->
-        <section class="letter-section">
-            <div class="letter-paper">
-                <h2 class="letter-title">A Letter From My Heart 💌</h2>
-                <p class="letter-page">Page 1 of 1</p>
+        <!-- Header Banner -->
+        <header class="scrapbook-header">
+            <span class="chapter-label">CHAPTER 01</span>
+            <h2 class="chapter-heading">A Letter From My Heart</h2>
+            <div class="vintage-divider">
+                <span class="divider-line"></span>
+                <span class="divider-ornament">❦</span>
+                <span class="divider-line"></span>
+            </div>
+        </header>
 
-                <h3 class="letter-greeting">Hey love,</h3>
-                <p>
-                    I don't know where to start, because every time I think about you, words feel less and emotions feel
-                    infinite. Par phir bhi, aaj mann ki baat likhni thi... sirf tumhare liye ❤️
-                </p>
-                <p>
-                    Tum meri zindagi ka wo hissa ho jo bina noise ke sab kuch bright kar deta hai. Jaise soft si roshni
-                    jo andhere room ko bhi warm bana deti hai. Tumhara hona loud nahi hai, par powerful hai. Tumhari ek
-                    smile poore din ka stress hata deti hai, aur tumhari ek simple "sab theek hai" wali line mujhe
-                    strong bana deti hai.
-                </p>
-                <p>
-                    I love the way you talk, even about random things. Tumhari baatein, tumhari choti-choti complaints,
-                    tumhari excitement... tumhari baatein jo sirf mujhe sunani hoti hain — sab kuch special lagta hai.
-                    Tum normal cheezon ko bhi beautiful bana deti ho, jaise chai, shaam, sadak, music, silence... sab
-                    kuch tumse connect ho jaata hai.
-                </p>
+        <!-- CHAPTER 1: THE LOVE LETTER -->
+        <section id="section-letter" class="story-section letter-section" aria-label="Love Letter">
+            <div class="letter-wrapper">
+                <article class="letter-paper">
+                    <!-- Letter Stamp & Header -->
+                    <div class="letter-meta-row">
+                        <div class="letter-postmark">
+                            <span class="postmark-circle">VALENTINE SPECIAL</span>
+                            <span class="postmark-date" id="letter-postmark-date">FOREVER &amp; ALWAYS</span>
+                        </div>
+                        <div class="letter-wax-seal-graphic">
+                            <span class="seal-initials">M &amp; H</span>
+                        </div>
+                    </div>
+
+                    <h3 class="letter-salutation">Hey Friend,</h3>
+
+                    <div class="letter-body">
+                        <p>
+                            I don't know where to start, because every time I think about you, words feel less and emotions feel
+                            infinite. Par phir bhi, aaj mann ki baat likhni thi... sirf tumhare liye ❤️
+                        </p>
+                        <p>
+                            Tum meri zindagi ka wo hissa ho jo bina noise ke sab kuch bright kar deta hai. Jaise soft si roshni
+                            jo andhere room ko bhi warm bana deti hai. Tumhara hona loud nahi hai, par powerful hai. Tumhari ek
+                            smile poore din ka stress hata deti hai, aur tumhari ek simple "sab theek hai" wali line mujhe
+                            strong bana deti hai.
+                        </p>
+                        <p>
+                            I love the way you talk, even about random things. Tumhari baatein, tumhari choti-choti complaints,
+                            tumhari excitement... tumhari baatein jo sirf mujhe sunani hoti hain — sab kuch special lagta hai.
+                            Tum normal cheezon ko bhi beautiful bana deti ho, jaise chai, shaam, sadak, music, silence... sab
+                            kuch tumse connect ho jaata hai.
+                        </p>
+                    </div>
+
+                    <div class="letter-signature-block">
+                        <span class="sign-off">With all my love, endlessly,</span>
+                        <span class="signature-handwritten">Forever Yours ❤️ly friend</span>
+                    </div>
+                </article>
             </div>
         </section>
 
-        <!-- Captured Moments Section -->
-        <section class="moments-section">
-            <h2 class="section-title">Captured Moments</h2>
+        <!-- CHAPTER 2: CAPTURED MOMENTS -->
+        <section id="section-moments" class="story-section moments-section" aria-label="Captured Moments">
+            <header class="section-heading-group">
+                <span class="chapter-label">CHAPTER 02</span>
+                <h2 class="chapter-heading">Captured Moments</h2>
+                <p class="chapter-subtext">Click any memory to flip it, or zoom in for a closer view</p>
+                <div class="vintage-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-ornament">✧</span>
+                    <span class="divider-line"></span>
+                </div>
+            </header>
 
-            <div class="masonry-grid">
+            <div class="polaroid-gallery" id="polaroid-gallery">
+
                 <!-- Polaroid 1 -->
-                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
-                    <div class="flipper">
-                        <div class="front">
-                            <div class="photo photo-1"></div>
-                            <p class="caption">Memory #1</p>
+                <div class="polaroid-card tilt-left" tabindex="0" role="region" aria-label="Memory 1 Polaroid">
+                    <div class="washi-tape tape-top"></div>
+                    <div class="polaroid-flipper">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-image-frame" style="background-image: url('photo/1.jpeg'); background-position: center 22%;">
+                                <button type="button" class="btn-lightbox-zoom" data-img="photo/1.jpeg" data-caption="Every moment with you is pure magic! ✨" aria-label="Enlarge Memory 1 photo">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="polaroid-bottom">
+                                <span class="polaroid-caption">Memory #1</span>
+                                <span class="flip-hint">Tap to flip ↻</span>
+                            </div>
                         </div>
-                        <div class="back">
-                            <p class="back-message">Every moment with you is magic! ✨</p>
+                        <div class="polaroid-face polaroid-back">
+                            <span class="card-pin">📌</span>
+                            <p class="back-text">Every moment with you is pure magic! ✨ From the simplest smile to our deepest talks, you make my life infinitely brighter.</p>
+                            <span class="flip-back-hint">Flip back ↺</span>
                         </div>
                     </div>
                 </div>
-                <!-- Polaroid Quote (Not flippable) -->
-                <div class="polaroid quote-polaroid">
-                    <div class="quote-content">
-                        <span class="heart-icon">♥</span>
-                        <p>"Your smile is my favorite view in the world ✨❤️"</p>
+
+                <!-- Quote Polaroid (Scrapbook Accent) -->
+                <div class="polaroid-card tilt-straight quote-polaroid-card" role="region" aria-label="Special Quote Card">
+                    <div class="washi-tape tape-center"></div>
+                    <div class="quote-card-inner">
+                        <span class="quote-symbol">♥</span>
+                        <blockquote class="quote-text">&ldquo;Your smile is my favorite view in the whole world.&rdquo;</blockquote>
+                        <span class="quote-author">— Forever Yours ✨❤️ly friend</span>
                     </div>
                 </div>
+
                 <!-- Polaroid 2 -->
-                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
-                    <div class="flipper">
-                        <div class="front">
-                            <div class="photo photo-2"></div>
-                            <p class="caption">Memory #2</p>
+                <div class="polaroid-card tilt-right" tabindex="0" role="region" aria-label="Memory 2 Polaroid">
+                    <div class="washi-tape tape-top"></div>
+                    <div class="polaroid-flipper">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-image-frame" style="background-image: url('photo/2.jpeg'); background-position: center 8%;">
+                                <button type="button" class="btn-lightbox-zoom" data-img="photo/2.jpeg" data-caption="I could stare at you all day. 😍" aria-label="Enlarge Memory 2 photo">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="polaroid-bottom">
+                                <span class="polaroid-caption">Memory #2</span>
+                                <span class="flip-hint">Tap to flip ↻</span>
+                            </div>
                         </div>
-                        <div class="back">
-                            <p class="back-message">I could stare at you all day. 😍</p>
+                        <div class="polaroid-face polaroid-back">
+                            <span class="card-pin">📌</span>
+                            <p class="back-text">I could stare at you all day. 😍 You have this effortless grace that takes my breath away every single time.</p>
+                            <span class="flip-back-hint">Flip back ↺</span>
                         </div>
                     </div>
                 </div>
+
                 <!-- Polaroid 3 -->
-                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
-                    <div class="flipper">
-                        <div class="front">
-                            <div class="photo photo-3"></div>
-                            <p class="caption">Memory #3</p>
+                <div class="polaroid-card tilt-left-subtle" tabindex="0" role="region" aria-label="Memory 3 Polaroid">
+                    <div class="washi-tape tape-top"></div>
+                    <div class="polaroid-flipper">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-image-frame" style="background-image: url('photo/3.jpeg'); background-position: center 22%;">
+                                <button type="button" class="btn-lightbox-zoom" data-img="photo/3.jpeg" data-caption="You are my happy place. 🏡💖" aria-label="Enlarge Memory 3 photo">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="polaroid-bottom">
+                                <span class="polaroid-caption">Memory #3</span>
+                                <span class="flip-hint">Tap to flip ↻</span>
+                            </div>
                         </div>
-                        <div class="back">
-                            <p class="back-message">You are my happy place. 🏡💖</p>
+                        <div class="polaroid-face polaroid-back">
+                            <span class="card-pin">📌</span>
+                            <p class="back-text">You are my happy place. 🏡💖 Whenever the world gets too loud, being with you brings me complete peace.</p>
+                            <span class="flip-back-hint">Flip back ↺</span>
                         </div>
                     </div>
                 </div>
+
                 <!-- Polaroid 4 -->
-                <div class="polaroid flip-container" onclick="this.classList.toggle('flipped')">
-                    <div class="flipper">
-                        <div class="front">
-                            <div class="photo photo-4"></div>
-                            <p class="caption">Memory #4</p>
+                <div class="polaroid-card tilt-right-subtle" tabindex="0" role="region" aria-label="Memory 4 Polaroid">
+                    <div class="washi-tape tape-top"></div>
+                    <div class="polaroid-flipper">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-image-frame" style="background-image: url('photo/4.jpeg'); background-position: center 8%;">
+                                <button type="button" class="btn-lightbox-zoom" data-img="photo/4.jpeg" data-caption="Our journey together is my favorite story. 📖💕" aria-label="Enlarge Memory 4 photo">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="polaroid-bottom">
+                                <span class="polaroid-caption">Memory #4</span>
+                                <span class="flip-hint">Tap to flip ↻</span>
+                            </div>
                         </div>
-                        <div class="back">
-                            <p class="back-message">Our journey together is my favorite story. 📖💕</p>
+                        <div class="polaroid-face polaroid-back">
+                            <span class="card-pin">📌</span>
+                            <p class="back-text">Our journey together is my favorite story. 📖💕 Every chapter with you is a memory I will cherish forever.</p>
+                            <span class="flip-back-hint">Flip back ↺</span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Polaroid 5 -->
+                <div class="polaroid-card tilt-straight" tabindex="0" role="region" aria-label="Memory 5 Polaroid">
+                    <div class="washi-tape tape-top"></div>
+                    <div class="polaroid-flipper">
+                        <div class="polaroid-face polaroid-front">
+                            <div class="polaroid-image-frame" style="background-image: url('photo/5.jpeg'); background-position: center 20%;">
+                                <button type="button" class="btn-lightbox-zoom" data-img="photo/5.jpeg" data-caption="With you, forever wouldn't be long enough. ✨💫" aria-label="Enlarge Memory 5 photo">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="polaroid-bottom">
+                                <span class="polaroid-caption">Memory #5</span>
+                                <span class="flip-hint">Tap to flip ↻</span>
+                            </div>
+                        </div>
+                        <div class="polaroid-face polaroid-back">
+                            <span class="card-pin">📌</span>
+                            <p class="back-text">With you, forever wouldn't be long enough. ✨💫 Thank you for being my constant, my partner, and my love.</p>
+                            <span class="flip-back-hint">Flip back ↺</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- Why I Love You Section -->
-        <section class="why-love-section">
-            <h2 class="section-title">Why I Love You</h2>
-            <div class="love-card">
-                <p id="love-quote">"I love you because tumhari presence hi enough hoti hai."</p>
+        <!-- CHAPTER 3: WHY I LOVE YOU -->
+        <section id="section-reasons" class="story-section reasons-section" aria-label="Why I Love You">
+            <header class="section-heading-group">
+                <span class="chapter-label">CHAPTER 03</span>
+                <h2 class="chapter-heading">Why I Love You like friendS</h2>
+                <p class="chapter-subtext">Little reflections from the depths of my heart</p>
+                <div class="vintage-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-ornament">♡</span>
+                    <span class="divider-line"></span>
+                </div>
+            </header>
+
+            <div class="reasons-carousel">
+                <div class="reasons-counter-badge" id="reasons-counter">REASON 01 / 06</div>
+
+                <div class="reason-card" id="reason-card">
+                    <div class="reason-card-decor">❦</div>
+                    <p class="reason-quote" id="love-quote">
+                        &ldquo;I love you like a friend  because tumhari presence hi enough hoti hai.&rdquo;
+                    </p>
+                </div>
+
+                <div class="reasons-control-row">
+                    <button type="button" id="prev-reason-btn" class="reason-nav-btn" aria-label="Previous Reason" title="Previous">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+
+                    <button type="button" id="feel-loved-btn" class="btn-luminous feel-loved-btn">
+                        <span class="heart-icon">🤍</span>
+                        <span>Click to Feel Loved</span>
+                    </button>
+
+                    <button type="button" id="next-reason-btn" class="reason-nav-btn" aria-label="Next Reason" title="Next">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <button class="pill-btn primary-btn pulse-glow" id="feel-loved-btn">
-                <span class="icon">🤍</span> Click to Feel Loved
-            </button>
-            <div class="envelope-icon-divider">
-                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none">
-                    <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7"></path>
-                    <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+        </section>
+
+        <!-- CHAPTER 4: OPEN WHEN ENVELOPES -->
+        <section id="section-open-when" class="story-section envelopes-section" aria-label="Open When Envelopes">
+            <header class="section-heading-group">
+                <span class="chapter-label">CHAPTER 04</span>
+                <h2 class="chapter-heading">Open When...</h2>
+                <p class="chapter-subtext">Little physical reminders of my love for whenever you need them</p>
+                <div class="vintage-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-ornament">✉</span>
+                    <span class="divider-line"></span>
+                </div>
+            </header>
+
+            <div class="envelopes-showcase">
+
+                <!-- Envelope 1: You Miss Me -->
+                <div class="envelope-item" data-envelope="1" tabindex="0" role="button" aria-expanded="false" aria-label="Envelope: Open When You Miss Me">
+                    <div class="envelope-3d">
+                        <div class="envelope-flap"></div>
+                        <div class="envelope-pocket">
+                            <div class="envelope-seal">
+                                <span class="seal-icon">♡</span>
+                            </div>
+                            <div class="envelope-label">
+                                <span class="env-to">To: My friend</span>
+                                <h3 class="env-occasion">When You Miss Me</h3>
+                                <span class="env-action-text">Tap To Open ✉</span>
+                            </div>
+                        </div>
+                        <!-- Letter that slides out -->
+                        <div class="letter-slip">
+                            <div class="letter-slip-header">
+                                <span class="slip-title">When You Miss Me</span>
+                                <span class="slip-seal">❤️</span>
+                            </div>
+                            <p class="slip-message">
+                                Close your eyes and remember our warmest hug. I am right there with you in your thoughts! No matter the distance or time, you are always the first thought in my morning and the sweetest thought before I sleep.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Envelope 2: You're Sad -->
+                <div class="envelope-item" data-envelope="2" tabindex="0" role="button" aria-expanded="false" aria-label="Envelope: Open When You're Sad">
+                    <div class="envelope-3d">
+                        <div class="envelope-flap"></div>
+                        <div class="envelope-pocket">
+                            <div class="envelope-seal">
+                                <span class="seal-icon">♡</span>
+                            </div>
+                            <div class="envelope-label">
+                                <span class="env-to">To: My Love</span>
+                                <h3 class="env-occasion">When You're Sad</h3>
+                                <span class="env-action-text">Tap To Open ✉</span>
+                            </div>
+                        </div>
+                        <div class="letter-slip">
+                            <div class="letter-slip-header">
+                                <span class="slip-title">When You're Sad</span>
+                                <span class="slip-seal">🌱</span>
+                            </div>
+                            <p class="slip-message">
+                                It's okay to feel down, and it's okay to let it out. Take a deep breath. Tomorrow is a gentle new beginning, and I will always be right beside you to hold your hand and listen through everything. You are so strong and so deeply loved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Envelope 3: You Need A Smile -->
+                <div class="envelope-item" data-envelope="3" tabindex="0" role="button" aria-expanded="false" aria-label="Envelope: Open When You Need A Smile">
+                    <div class="envelope-3d">
+                        <div class="envelope-flap"></div>
+                        <div class="envelope-pocket">
+                            <div class="envelope-seal">
+                                <span class="seal-icon">♡</span>
+                            </div>
+                            <div class="envelope-label">
+                                <span class="env-to">To: My Friend</span>
+                                <h3 class="env-occasion">When You Need A Smile</h3>
+                                <span class="env-action-text">Tap To Open ✉</span>
+                            </div>
+                        </div>
+                        <div class="letter-slip">
+                            <div class="letter-slip-header">
+                                <span class="slip-title">When You Need A Smile</span>
+                                <span class="slip-seal">✨</span>
+                            </div>
+                            <p class="slip-message">
+                                Remember that time we laughed until our stomachs hurt over the silliest little thing? Your laughter is honestly my favorite melody in the world. Smile right now, because someone loves you more than words could ever describe!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CHAPTER 5: THE VALENTINE QUESTION -->
+        <section id="section-valentine" class="story-section valentine-section" aria-label="Valentine Question">
+            <header class="section-heading-group">
+                <span class="chapter-label">CHAPTER 05</span>
+                <h2 class="chapter-heading">A Question For You 🌹</h2>
+                <div class="vintage-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-ornament">❦</span>
+                    <span class="divider-line"></span>
+                </div>
+            </header>
+
+            <div class="valentine-card">
+                <!-- Handcrafted Elegant Romantic Vector Illustration (Replaces Bear Placeholder) -->
+                <div class="artwork-frame" aria-label="Romantic Starlight Vignette">
+                    <svg class="romantic-vignette" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#180c18"/>
+                                <stop offset="100%" stop-color="#311425"/>
+                            </linearGradient>
+                            <linearGradient id="warmLight" x1="0.5" y1="0" x2="0.5" y2="1">
+                                <stop offset="0%" stop-color="#ffe4b5" stop-opacity="0.9"/>
+                                <stop offset="100%" stop-color="#e07a5f" stop-opacity="0.3"/>
+                            </linearGradient>
+                            <radialGradient id="lanternGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#fff4cc" stop-opacity="1"/>
+                                <stop offset="50%" stop-color="#f4a261" stop-opacity="0.5"/>
+                                <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+                            </radialGradient>
+                            <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="3"/>
+                            </filter>
+                        </defs>
+
+                        <!-- Night Sky & Arch -->
+                        <rect x="10" y="10" width="300" height="200" rx="16" fill="url(#skyGrad)" stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.4"/>
+                        <circle cx="160" cy="110" r="85" fill="none" stroke="#d4af37" stroke-width="0.75" stroke-dasharray="3 4" stroke-opacity="0.3"/>
+
+                        <!-- Moon & Starlight -->
+                        <circle cx="250" cy="50" r="16" fill="#fff8e7" fill-opacity="0.85"/>
+                        <circle cx="250" cy="50" r="28" fill="#fff8e7" fill-opacity="0.12" filter="url(#softBlur)"/>
+                        <!-- Stars -->
+                        <circle cx="45" cy="40" r="1.5" fill="#ffffff" opacity="0.8"/>
+                        <circle cx="85" cy="65" r="1" fill="#ffd1dc" opacity="0.7"/>
+                        <circle cx="130" cy="35" r="1.8" fill="#ffffff" opacity="0.9"/>
+                        <circle cx="205" cy="45" r="1" fill="#ffffff" opacity="0.6"/>
+                        <circle cx="275" cy="90" r="1.2" fill="#ffd1dc" opacity="0.75"/>
+                        <circle cx="60" cy="120" r="1" fill="#ffffff" opacity="0.5"/>
+
+                        <!-- Romantic Silhouette of Lovers on Hill -->
+                        <path d="M20 200 Q 160 170 300 200 L300 210 L20 210 Z" fill="#0f070f"/>
+                        
+                        <!-- Couple Silhouettes -->
+                        <!-- Person Left -->
+                        <circle cx="148" cy="148" r="7" fill="#240f1a"/>
+                        <path d="M142 156 Q148 152 154 156 L156 185 Q148 188 140 185 Z" fill="#240f1a"/>
+                        <!-- Person Right -->
+                        <circle cx="164" cy="150" r="6.5" fill="#240f1a"/>
+                        <path d="M158 157 Q165 154 171 157 L173 185 Q165 188 157 185 Z" fill="#240f1a"/>
+
+                        <!-- Entwined Hands & Amber Lantern -->
+                        <path d="M150 166 Q156 168 162 166" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round"/>
+                        <circle cx="156" cy="172" r="18" fill="url(#lanternGlow)"/>
+                        <rect x="153" y="169" width="6" height="8" rx="2" fill="#ffeaa7"/>
+                        <path d="M154 167 L158 167" stroke="#d4af37" stroke-width="1"/>
+
+                        <!-- Floating Luminous Hearts -->
+                        <path d="M156 128 C156 124 150 120 146 125 C141 130 146 136 156 142 C166 136 171 130 166 125 C162 120 156 124 156 128 Z" fill="#e74c3c" fill-opacity="0.85"/>
+                        <path d="M182 108 C182 105 178 102 175 105 C171 109 175 113 182 118 C189 113 193 109 189 105 C186 102 182 105 182 108 Z" fill="#f39c12" fill-opacity="0.7"/>
+                        <path d="M130 112 C130 109 126 106 123 109 C119 113 123 117 130 122 C137 117 141 113 137 109 C134 106 130 109 130 112 Z" fill="#e84393" fill-opacity="0.7"/>
+                    </svg>
+                </div>
+
+                <h3 class="valentine-main-prompt">Will you be my Friend forever?</h3>
+                <p class="valentine-sub-prompt">Today, tomorrow, and every single day that follows.</p>
+
+                <div class="valentine-actions">
+                    <button type="button" id="val-yes-btn" class="btn-luminous btn-valentine-yes">
+                        <span>Yes, With All My Heart! 💕</span>
+                    </button>
+                    <button type="button" id="val-no-btn" class="btn-valentine-maybe" title="Think again!">
+                        <span>Think again 😉</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHAPTER 6: THE FINAL SURPRISE CLIMAX -->
+        <section id="section-climax" class="story-section climax-section" aria-label="Final Surprise">
+            <header class="section-heading-group">
+                <span class="chapter-label">CHAPTER 06</span>
+                <h2 class="chapter-heading">One Last Surprise...</h2>
+                <p class="chapter-subtext">Touch the gift box to unlock what lies within</p>
+                <div class="vintage-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-ornament">✧</span>
+                    <span class="divider-line"></span>
+                </div>
+            </header>
+
+            <!-- 3D Luxury Velvet Gift Box -->
+            <div class="gift-box-area" id="gift-box-area">
+                <!-- Floating Hearts Confetti Burst Container -->
+                <div class="gift-particles-container" id="gift-particles-container" aria-hidden="true"></div>
+
+                <div class="gift-box-3d" id="gift-box-3d" role="button" tabindex="0" aria-label="Open Luxury Gift Box" title="Click to Open">
+                    <!-- Volumetric Glow Rays when opened -->
+                    <div class="gift-light-burst" id="gift-light-burst"></div>
+
+                    <!-- Gift Box Lid -->
+                    <div class="gift-lid" id="gift-lid">
+                        <div class="lid-ribbon-cross"></div>
+                        <div class="lid-bow">
+                            <div class="bow-loop bow-left"></div>
+                            <div class="bow-loop bow-right"></div>
+                            <div class="bow-knot"></div>
+                        </div>
+                    </div>
+
+                    <!-- Gift Box Body -->
+                    <div class="gift-body">
+                        <div class="body-ribbon-v"></div>
+                        <div class="body-ribbon-h"></div>
+                        <div class="gift-interior-glow"></div>
+                    </div>
+                </div>
+
+                <p class="gift-tap-prompt" id="gift-tap-prompt">Tap the velvet box to reveal</p>
+            </div>
+
+            <!-- In-Page Emotional Climax Card (No Browser Alerts!) -->
+            <div class="final-climax-card" id="final-climax-card" aria-live="polite">
+                <div class="climax-card-border">
+                    <span class="climax-heart-crest">❤️</span>
+                    <span class="climax-tag">FOREVER &amp; ALWAYS</span>
+                    <h3 class="climax-title">YOU SAID YES</h3>
+                    <p class="climax-tagline">You just made this little world complete.</p>
+
+                    <div class="climax-body">
+                        <p>
+                            Thank you for being my favorite part of every day, my safest comfort, and my brightest smile.
+                            No distance, no quiet days, and no storms will ever change how deeply and endlessly I love you.
+                        </p>
+                    </div>
+
+                    <div class="climax-signatures">
+                        <span class="climax-date" id="climax-date-stamp">SEPTEMBER 16</span>
+                        <span class="climax-handwriting">Always Yours ❤️</span>
+                    </div>
+
+                    <div class="climax-reset-row">
+                        <button type="button" id="experience-again-btn" class="btn-luminous btn-reset-experience">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                <path d="M3 3v5h5"/>
+                            </svg>
+                            <span>Experience Again</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         FULLSCREEN PHOTO LIGHTBOX MODAL
+    =========================================== -->
+    <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Photo Lightbox" hidden>
+        <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+        <div class="lightbox-dialog">
+            <button type="button" class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close photo view">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
-            </div>
-        </section>
-
-        <!-- Open When Section -->
-        <section class="open-when-section">
-            <h2 class="section-title">Open When...</h2>
-            <p class="section-subtitle">Little reminders of my love for every mood</p>
-
-            <div class="envelopes-grid">
-                <!-- Envelope 1 -->
-                <div class="open-envelope" onclick="this.classList.toggle('opened')">
-                    <div class="env-header">
-                        <span class="env-to">To: My Love</span>
-                        <span class="env-heart">♡</span>
-                    </div>
-                    <h3 class="env-title">You Miss Me</h3>
-                    <button class="env-btn">WHEN</button>
-                    <!-- Hidden content simulating opened envelope -->
-                    <div class="env-content">Close your eyes and remember our best hug. I'm right there with you
-                        mentally!</div>
-                </div>
-                <!-- Envelope 2 -->
-                <div class="open-envelope" onclick="this.classList.toggle('opened')">
-                    <div class="env-header">
-                        <span class="env-to">To: My Love</span>
-                        <span class="env-heart">♡</span>
-                    </div>
-                    <h3 class="env-title">You're Sad</h3>
-                    <button class="env-btn">OPEN WHEN</button>
-                    <!-- Hidden content -->
-                    <div class="env-content">It's okay to cry. Tomorrow is a new day and I am always here to listen.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Will You Be My Valentine Section -->
-        <section class="valentine-section">
-            <h2 class="section-title">Will you be my Valentine? 🌹</h2>
-
-            <div class="bear-card">
-                <!-- Simulated bear sticker/GIF area -->
-                <div class="bear-placeholder">
-                    <span>🐻 Hugs!</span>
-                </div>
-            </div>
-            <button class="pill-btn highlight-btn" onclick="alert('I love you immensely!')">Yes! 💖</button>
-
-            <!-- One Last Surprise -->
-            <div class="last-surprise">
-                <h2 class="section-title">One Last Surprise...</h2>
-                <p class="section-subtitle">Click the box to open</p>
-
-                <div class="flat-giftbox" id="final-box">
-                    <div class="box-lid" id="final-lid"></div>
-                    <div class="box-bottom">
-                        <div class="chest-jewel">♡</div>
-                    </div>
-                </div>
-
-                <!-- Expanded Heart Confetti Container -->
-                <div class="hearts-container" id="hearts-container"></div>
-
-                <h3 class="final-question">Will you be my Valentine?</h3>
-                <button class="pill-btn highlight-btn pulse-glow" id="final-yes-btn">YES! 💕</button>
-            </div>
-        </section>
-
-        <!-- Floating Music Player -->
-        <div class="floating-music-player">
-            <button class="play-btn" id="audio-toggle">
-                <svg viewBox="0 0 24 24" fill="currentColor" class="play-icon">
-                    <path d="M8 5V19L19 12L8 5Z"></path>
-                </svg>
             </button>
-            <div class="music-info">
-                <p class="song-title">Love Song</p>
-                <p class="song-artist">Our favorite track</p>
+            <div class="lightbox-image-wrapper">
+                <img id="lightbox-img" src="" alt="Enlarged Memory Photo">
             </div>
-            <audio id="bg-music" loop></audio>
+            <p id="lightbox-caption" class="lightbox-caption"></p>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 

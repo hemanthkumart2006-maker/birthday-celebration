@@ -1,5 +1,13 @@
 {
-  "dependencies": {
-    "ffmpeg-static": "^5.3.0"
-  }
+  "name": "celebration-h",
+  "version": "2.0.0",
+  "description": "The Vault - A Premium Personal Memory Experience",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": ["memories", "celebration", "vault", "romantic"],
+  "author": "",
+  "license": "ISC"
 }
